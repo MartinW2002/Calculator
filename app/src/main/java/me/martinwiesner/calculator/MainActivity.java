@@ -21,26 +21,40 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         String text = ((Button) view).getText().toString();
         switch (text) {
-            case "<-":
-                result.setText(result.getText().toString() + text);
+            case "DEL":
+                if (result.getText().equals("0"))
+                    return;
+
                 break;
             case "/":
+                if (result.getText().equals("0"))
+                    return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "*":
+                if (result.getText().equals("0"))
+                    return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "-":
+                if (result.getText().equals("0"))
+                    return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "+":
+                if (result.getText().equals("0"))
+                    return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "=":
+                if (result.getText().equals("0"))
+                    return;
 
                 break;
             default:
                 try {
+                    if (result.getText().equals("0"))
+                        return;
                     int number = Integer.parseInt(text);
                     result.setText(result.getText().toString() + number);
                 } catch (NumberFormatException ex) {

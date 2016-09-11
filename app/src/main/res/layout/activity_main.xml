@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_backspace"
-        android:text="<-"
+        android:text="DEL"
         android:textSize="50sp"
         android:layout_alignParentRight="true"
         android:onClick="onClick"/>
