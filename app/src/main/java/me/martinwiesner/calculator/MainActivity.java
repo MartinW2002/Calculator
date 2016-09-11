@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private double calculate(String text) {
         String firstPart = "";
         String secondPart = "";
-        double calc = 0;
+        double calc;
         boolean signFound = false;
         String sign = "";
         for (char c : text.toCharArray()) {
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 calc = firstDouble / secondDouble;
                 break;
             default:
-                new Exception("Invalid text to calculate!");
+                new Exception("Invalid text to calculate!").printStackTrace();
                 return 0;
         }
         return calc;
