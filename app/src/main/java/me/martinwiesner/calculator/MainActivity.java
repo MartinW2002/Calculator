@@ -38,37 +38,37 @@ public class MainActivity extends AppCompatActivity {
             case "/":
                 if (result.getText().equals("0"))
                     return;
-                if (containsSign(text))
+                if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "*":
                 if (result.getText().equals("0"))
                     return;
-                if (containsSign(text))
+                if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "-":
                 if (result.getText().equals("0"))
                     return;
-                if (containsSign(text))
+                if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "+":
                 if (result.getText().equals("0"))
                     return;
-                if (containsSign(text))
+                if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
                 break;
             case "=":
                 if (result.getText().equals("0"))
                     return;
-                if (!containsSign(text))
+                if (!containsSign(result.getText().toString()))
                     return;
-
+                result.setText("" + calculate(result.getText().toString()));
                 break;
             default:
                 try {
@@ -89,6 +89,64 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    private double calculate(String text) {
+        String firstPart = "";
+        String secondPart = "";
+        double calc = 0;
+        boolean signFound = false;
+        String sign = "";
+        for (char c : text.toCharArray()) {
+            if (c == '+') {
+                sign = String.valueOf(c);
+                signFound = true;
+                continue;
+            } else if (c == '*') {
+                sign = String.valueOf(c);
+                signFound = true;
+                continue;
+            } else if (c == '-') {
+                sign = String.valueOf(c);
+                signFound = true;
+                continue;
+            } else if (c == '/') {
+                sign = String.valueOf(c);
+                signFound = true;
+                continue;
+            }
+            if (!signFound)
+                firstPart += c;
+            else
+                secondPart += c;
+        }
+        double firstDouble = 0;
+        double secondDouble = 0;
+        try {
+            firstDouble = Double.parseDouble(firstPart);
+            secondDouble = Double.parseDouble(secondPart);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
+        }
+        switch (sign) {
+            case "+":
+                calc = firstDouble + secondDouble;
+                break;
+            case "-":
+                calc = firstDouble - secondDouble;
+                break;
+            case "*":
+                calc = firstDouble * secondDouble;
+                break;
+            case "/":
+                calc = firstDouble / secondDouble;
+                break;
+            default:
+                new Exception("Invalid text to calculate!");
+                return 0;
+
+        }
+        return calc;
     }
 
 }
