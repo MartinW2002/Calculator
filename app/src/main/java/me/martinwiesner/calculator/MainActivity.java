@@ -9,6 +9,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView result;
+    private boolean isResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +22,16 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         String text = ((Button) view).getText().toString();
         switch (text) {
+            case "CA":
+                result.setText("0");
+                break;
             case "DEL":
                 if (result.getText().equals("0"))
                     return;
+                if (isResult) {
+                    result.setText("0");
+                    return;
+                }
                 CharSequence charSequence = result.getText();
                 CharSequence newCS = "";
                 for (int i = 0, n = charSequence.length(); i < n; i++) {
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             case "/":
                 if (result.getText().equals("0"))
                     return;
+                if (isResult)
+                    isResult = false;
                 if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
@@ -45,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             case "*":
                 if (result.getText().equals("0"))
                     return;
+                if (isResult)
+                    isResult = false;
                 if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
@@ -52,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
             case "-":
                 if (result.getText().equals("0"))
                     return;
+                if (isResult)
+                    isResult = false;
                 if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
@@ -59,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             case "+":
                 if (result.getText().equals("0"))
                     return;
+                if (isResult)
+                    isResult = false;
                 if (containsSign(result.getText().toString()))
                     return;
                 result.setText(result.getText().toString() + text);
@@ -68,15 +84,33 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 if (!containsSign(result.getText().toString()))
                     return;
-                result.setText("" + calculate(result.getText().toString()));
+                isResult = true;
+                String calc = "" + calculate(result.getText().toString());
+                if (calc.contains(".0")) {
+                    String newCalc = "";
+                    for (int i = 0, n = calc.length(); i < n; i++) {
+                        if (i == n - 2)
+                            break;
+                        newCalc = newCalc + "" + calc.charAt(i);
+                    }
+                    result.setText(newCalc);
+                    return;
+                }
+                result.setText(calc);
                 break;
             default:
                 try {
                     int number = Integer.parseInt(text);
                     if (result.getText().equals("0"))
                         result.setText(number + "");
-                    else
+                    else {
+                        if (isResult) {
+                            result.setText(number + "");
+                            isResult = false;
+                            return;
+                        }
                         result.setText(result.getText().toString() + number);
+                    }
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
@@ -144,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 new Exception("Invalid text to calculate!");
                 return 0;
-
         }
         return calc;
     }
